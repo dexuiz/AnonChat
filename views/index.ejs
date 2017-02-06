@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Anon-Chat</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script  src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="well">
+            <h3>online users</h3>
+            <p id="number">345</p>
+            <button  name="button" class="btn btn-primary">connect</button>
+            <div class="well">
+              <form action="" method="">
+                <div class="form-group">
+                  <label>search User:</label>
+                  <input class="form-control" id="uname" placeholder="name">
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-8">
+            <div class="well">
+              <div class="chat" id="chat">
+              </div>
+            </div>
+            <div class="well">
+              <form action="" id="messageForm">
+                <div class="form-group">
+                  <label>type message:</label>
+                  <textarea n rows="5" id="textMessage" class="form-control"></textarea>
+                  <br>
+                  <input  name="send" class="btn btn-primary" value="send">
+                </div>
+              </form>
+            </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript">
+    $(function(){
+      var socket= io.connect();
+    });
+  </script>
+</html>
