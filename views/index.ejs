@@ -6,48 +6,88 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script  src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
-
+    <style>
+      #carea{
+        display: none;
+      }
+      #input{
+        display:inline-flex;
+      }
+      #nick{
+        width: 100%;
+        margin-right: 10px;
+      }
+    </style>
   </head>
   <body>
     <div class="container">
-      <div class="row">
-        <div class="col-md-4">
-          <div class="well">
-            <h3>online users</h3>
-            <p id="number">345</p>
-            <button  name="button" class="btn btn-primary">connect</button>
-            <div class="well">
-              <form action="" method="">
-                <div class="form-group">
-                  <label>search User:</label>
-                  <input class="form-control" id="uname" placeholder="name">
-                </div>
-              </form>
-            </div>
-          </div>
+      <div class="container text-center" id="main">
+        <h1 >connectivy</h1>
+        <p>talk to random strangers online</p>
+        <div class="well" id="input">
+
+          <input type="text" class="form-control" id="nick" placeholder="nickname">
+          <input type="submit" class="btn btn-primary" value="get started" id="gstart">
+
         </div>
-        <div class="col-md-8">
+      </div>
+      <div class="container" id="carea" class="none">
+         <div class="row">
+          <div class="col-md-4">
             <div class="well">
-              <div class="chat" id="chat">
+              <h3>online users</h3>
+              <p id="number">345</p>
+              <button  name="button" class="btn btn-primary">connect</button>
+              <div class="well">
+                <form action="" method="">
+                  <div class="form-group">
+                    <label>search User:</label>
+                    <input class="form-control" id="uname" placeholder="name">
+                  </div>
+                </form>
               </div>
             </div>
-            <div class="well">
-              <form action="" id="messageForm">
-                <div class="form-group">
-                  <label>type message:</label>
-                  <textarea n rows="5" id="textMessage" class="form-control"></textarea>
-                  <br>
-                  <input  name="send" class="btn btn-primary" value="send">
-                </div>
-              </form>
-            </div>
+          </div>
+          <div class="col-md-8">
+              <div class="well" id="chat">
+
+              </div>
+              <div class="well">
+                <form action="" id="messageForm">
+                  <div class="form-group">
+                    <label>type message:</label>
+                    <textarea rows="5"  class="form-control" id="txtmsg"></textarea>
+                    <br>
+                    <input  name="send" class="btn btn-primary" value="send" id="btsend">
+                  </div>
+                </form>
+              </div>
+          </div>
         </div>
       </div>
     </div>
   </body>
   <script type="text/javascript">
-    $(function(){
-      var socket= io.connect();
+    var nname;
+
+    $("#gstart").click(function(){
+      nname = $("#nick").val();
+      $("#main").toggle();
+      $("#carea").toggle();
+
+    })
+
+
+
+    console.log($("#txtmsg").val());
+    var socket =io();
+    $("#btsend").click(function(){
+      socket.emit("chat message",$("#txtmsg").val());
+      $("#txtmsg").val("");
+      return false;
     });
+    socket.on("chat message",function(msg){
+      $("#chat").append("<div class='well'>"+msg+"</div>")
+    })
   </script>
 </html>
