@@ -4,7 +4,6 @@ var server = require('http').createServer(app);
 var io = require("socket.io")(server);
 app.set("view engine","ejs");
 
-var users=[];
 var connections=[];
 
 app.get("/",function(req,res){
@@ -12,19 +11,21 @@ app.get("/",function(req,res){
 })
 
 io.on('connection',function(socket){
-  connections.push(socket);
-  console.log(connections.length+"users connected");
+
+  socket.on("nickname",function(name){
+    console.log(name);
+    connections.push({username:name,socket:socket});
+    console.log(connections.length);
+  })
 
   socket.on("chat message",function(msg){
     console.log("message"+msg);
     io.emit("chat message",msg);
   });
 
-
-
   socket.on("disconnect",function(){
     connections.splice(connections.indexOf(socket),1);
-    console.log(connections.length+"users connected");
+    console.log(connections.length+"users connected",connections);
     });
   });
 
